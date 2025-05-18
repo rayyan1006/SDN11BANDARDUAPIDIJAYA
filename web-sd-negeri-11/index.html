@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Beranda - SD Negeri 11 Bandar Dua</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto+Slab&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      color: #0c31ac;
+      background: #ffffff;
+      overflow-x: hidden;
+    }
+
+    header.navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: #0d47a1;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: rgb(255, 255, 255);
+      box-shadow: 0 3px 8px rgb(13 71 161 / 0.5);
+      z-index: 1100;
+      gap: 20px;
+    }
+
+    .hamburger {
+      cursor: pointer;
+      width: 28px;
+      height: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hamburger span {
+      display: block;
+      height: 3px;
+      background: rgb(255, 253, 253);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    header.navbar .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    nav.sidebar {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      height: calc(100vh - 60px);
+      width: 250px;
+      background-color: #0d47a1;
+      color: white;
+      padding-top: 20px;
+      transform: translateX(-260px);
+      transition: transform 0.3s ease;
+      box-shadow: 2px 0 10px rgb(0 0 0 / 0.2);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    nav.sidebar.open {
+      transform: translateX(0);
+    }
+    nav.sidebar a {
+      color: white;
+      padding: 12px 25px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background-color 0.2s ease;
+      border-left: 4px solid transparent;
+      user-select: none;
+    }
+    nav.sidebar a:hover {
+      background-color: #1565c0;
+    }
+    nav.sidebar a.active {
+      background-color: #1565c0;
+      border-left-color: #ffca28;
+      font-weight: 700;
+    }
+
+    main.content {
+      max-width: 1000px;
+      margin: 90px auto 50px auto;
+      padding: 0 20px 50px;
+      transition: margin-left 0.3s ease;
+      margin-left: 20px;
+    }
+    main.content.sidebar-open {
+      margin-left: 280px;
+    }
+
+   .slider-container {
+       position: relative;
+       width: 100vw;
+       height: 400px;
+       margin: 0 auto 50px auto;
+       overflow: hidden;
+       border-radius: 0;
+       box-shadow: 0 5px 20px rgba(212, 0, 0, 0.1); 
+    }
+
+
+    .slider {
+      display: flex;
+      width: 300%;
+      height: 100%;
+      transform: translateX(0);
+      transition: transform 0.1s ease-in-out;
+    }
+
+
+    .slider img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    h1 {
+      color: #0d47a1;
+      font-weight: 700;
+      margin-bottom: 30px;
+      font-family: 'Roboto Slab', serif;
+      text-align: center;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 3px rgba(13, 71, 161, 0.3);
+    }
+
+    .news-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); /* Selalu 3 kolom */
+      gap: 24px;
+      padding-bottom: 30px;   
+    }
+
+    .news-item {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgb(0 0 0 / 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .news-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgb(0 0 0 / 0.15);
+    }
+    .news-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 16px 16px 0 0;
+      transition: transform 0.4s ease;
+    }
+    .news-item:hover .news-img {
+      transform: scale(1.05);
+    }
+    .news-content {
+      padding: 18px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .news-date {
+      font-size: 0.8rem;
+      color: #7a7a7a;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      font-style: italic;
+    }
+    .news-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #0d47a1;
+      line-height: 1.2;
+      flex-grow: 1;
+      margin: 0;
+      transition: color 0.3s ease;
+    }
+    .news-item:hover .news-title {
+      color: #ffca28;
+    }
+    .news-excerpt {
+      font-size: 1rem;
+      color: #444;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 15px;
+      background: #330085;
+      color: white;
+      margin-top: 50px;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 600px) {
+      nav.sidebar {
+        width: 200px;
+        transform: translateX(-210px);
+      }
+      nav.sidebar.open {
+        transform: translateX(0);
+      }
+      main.content.sidebar-open {
+        margin-left: 220px;
+      }
+      .news-img {
+        height: 160px;
+      }
+      .news-title {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="hamburger" id="hamburger" aria-label="Toggle menu" role="button" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="logo">SD NEGERI 11 BANDAR DUA</div>
+  </header>
+
+    <!--
+  ===========================
+  TAMBAHKAN POPUP DI SINI
+  ===========================
+  -->
+  <div id="popup-logo" style="
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(52, 0, 196, 0.699);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1200;
+  ">
+    <div style="
+      background: rgb(255, 255, 255);
+      border-radius: 12px;
+      padding: 30px 40px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      position: relative;
+    ">
+      <button id="close-popup" style="
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: transparent;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #0d47a1;
+      " aria-label="Tutup popup">&times;</button>
+      <img src="img/Logo-Dinas- Pendidikan.png" alt="Logo Dinas Pendidikan" style="width: 120px; margin-bottom: 20px;" />
+      <img src="img/tu-wuri.png" alt="Logo Sekolah" style="width: 120px; margin-bottom: 20px;" />
+      <h2 style="color: #01122c; margin-bottom: 10px;">Selamat Datang di SD Negeri 11 Bandar Dua</h2>
+      <p style="color: #ff0000;">Dinas Pendidikan dan Kebudayaan Kabupaten Pidie Jaya</p>
+    </div>
+  </div>
+  <!--
+  ===========================
+  SELESAI TAMBAHKAN POPUP
+  ===========================
+  -->
+
+
+  <nav class="sidebar" id="sidebar">
+    <a href="index.html" class="active">Beranda</a>
+    <a href="profil.html">Profil</a>
+    <a href="informasi.html">Informasi</a>
+    <a href="galeri.html">Galeri</a>
+    <a href="ppdb.html">PPDB Online</a>
+    <a href="login.html">Login</a>
+  </nav>
+
+  <main class="content" id="main-content">
+  </div>
+    <div class="slider-container">
+      <div class="slider" id="slider">
+        <img src="img/bupati_pijay.jpg" alt="Dokumentasi 1" />
+        <img src="img//bupati_pidie.jpeg alt="Dokumentasi 2"  />
+        <img src="img/lab_kom.jpg" alt="Dokumentasi 3" />
+      </div>
+        <button id="prev" style="position:absolute; top:50%; left:10px; transform:translateY(-50%); background:#fff; border:none; font-size:24px; cursor:pointer; z-index:10;">&#10094;</button>
+        <button id="next" style="position:absolute; top:50%; right:10px; transform:translateY(-50%); background:#fff; border:none; font-size:24px; cursor:pointer; z-index:10;">&#10095;</button>
+      </div>
+
+
+    <h1>Berita &amp; Kegiatan Terbaru</h1>
+    <div class="news-list" id="news-list">
+      <!-- Berita akan di-generate lewat JavaScript -->
+    </div>
+  </main>
+
+  <footer>
+    <p>© SD Negeri 11 Bandar Dua - PIDIE JAYA-BANDAR DUA-PEULAKAN @2025 </footer>
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+
+    function toggleSidebar() {
+      hamburger.classList.toggle('open');
+      sidebar.classList.toggle('open');
+      mainContent.classList.toggle('sidebar-open');
+    }
+
+    hamburger.addEventListener('click', toggleSidebar);
+    hamburger.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleSidebar();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const beritaSekolah = [
+  {
+    judul: "Hari Pendidikan Nasional",
+    tanggal: "2025-05-15",
+    gambar: "img/pendidikan.jpg",
+    excerpt: "Siswa kelas 5 melakukan kegiatan outbound untuk membangun kerja sama dan karakter leadership."
+  },
+  {
+    judul: "Lomba Seni Antar Kelas",
+    tanggal: "2025-05-10",
+    gambar: "img/hardiknas.jpg",
+    excerpt: "Lomba seni tingkat sekolah dasar diikuti oleh seluruh kelas dengan berbagai cabang lomba menarik."
+  },
+  {
+    judul: "Workshop Teknologi Informasi",
+    tanggal: "2025-05-05",
+    gambar: "img/workshop.jpg",
+    excerpt: "Workshop yang diadakan untuk meningkatkan kemampuan guru dalam penggunaan teknologi pembelajaran."
+  },
+  {
+    judul: "Penghijauan Sekolah",
+    tanggal: "2025-04-30",
+    gambar: "img/penghijauan.jpg",
+    excerpt: "Kegiatan penghijauan dan penanaman pohon untuk menciptakan lingkungan sekolah yang lebih asri."
+  }
+];
+      const container = document.getElementById('news-list');
+      beritaSekolah.forEach(item => {
+        const date = new Date(item.tanggal);
+        const formattedDate = date.toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
+        const div = document.createElement('article');
+        div.className = 'news-item';
+        div.innerHTML = `
+          <img src="${item.gambar}" alt="Foto kegiatan: ${item.judul}" class="news-img" />
+          <div class="news-content">
+            <div class="news-date">${formattedDate}</div>
+            <h3 class="news-title">${item.judul}</h3>
+            <p class="news-excerpt">${item.excerpt}</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    });
+  </script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const popup = document.getElementById('popup-logo');
+    const closeBtn = document.getElementById('close-popup');
+
+    // Tutup popup saat tombol diklik
+    closeBtn.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
+
+    // Bisa juga tutup popup dengan klik area luar (opsional)
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) {
+        popup.style.display = 'none';
+      }
+    });
+  });
+</script>
+<script>
+  const slider = document.getElementById('slider');
+  const nextBtn = document.getElementById('next');
+  const prevBtn = document.getElementById('prev');
+
+  let currentSlide = 0;
+  const totalSlides = slider.children.length;
+
+  function updateSlider() {
+    slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+  }
+
+  nextBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateSlider();
+  });
+
+  prevBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateSlider();
+  });
+</script>
+
+
+</body>
+</html>

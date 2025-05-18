@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Data Siswa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif;}
+    body {display: flex; height: 100vh; background-color: #f4f7fc; overflow: hidden;}
+    .sidebar {width: 250px; background-color: #1a237e; color: white; display: flex; flex-direction: column; padding: 20px;}
+    .sidebar h2 {margin-bottom: 30px; text-align: center;}
+    .sidebar a {text-decoration: none; color: white; padding: 15px 10px; margin: 5px 0; border-radius: 8px; transition: 0.2s;}
+    .sidebar a:hover {background-color: #3949ab;}
+    .main {flex: 1; padding: 20px; overflow-y: auto; animation: fadeIn 0.5s ease;}
+    .navbar {background-color: white; padding: 15px 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); display: flex; justify-content: space-between;}
+    .navbar h1 {font-size: 22px; color: #1a237e;}
+    table {width: 100%; border-collapse: collapse; background-color: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);}
+    th, td {padding: 12px 16px; text-align: left; border-bottom: 1px solid #eee;}
+    th {background-color: #e8eaf6; color: #1a237e;}
+    tr:hover {background-color: #f1f3f4;}
+    .btn {padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: 0.2s ease;}
+    .btn-tambah {background-color: #1a237e; color: white; margin-bottom: 15px;}
+    .btn-edit {background-color: #0288d1; color: white;}
+    .btn-hapus {background-color: #d32f2f; color: white;}
+    @keyframes fadeIn {from {opacity: 0; transform: translateY(20px);} to {opacity: 1; transform: translateY(0);}}
+
+    /* Modal */
+    .modal {display: none; position: fixed; z-index: 1; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);}
+    .modal-content {background-color: #fff; margin: auto; padding: 20px; border: 1px solid #888; width: 400px; border-radius: 10px;}
+    .modal h2 {margin-bottom: 15px;}
+    .modal input {width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ccc;}
+    .modal .btn {width: 100%; margin-top: 10px;}
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="data-siswa.html">Data Siswa</a>
+    <a href="#">Data Guru</a>
+    <a href="#">PPDB</a>
+    <a href="#">Pengumuman</a>
+    <a href="#">Logout</a>
+  </div>
+  <div class="main">
+    <div class="navbar">
+      <h1>Data Siswa</h1>
+    </div>
+    <button class="btn btn-tambah" onclick="openModal()">+ Tambah Siswa</button>
+    <table id="siswaTable">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama</th>
+          <th>NISN</th>
+          <th>Kelas</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="siswaBody">
+        <!-- Data siswa akan ditambahkan lewat JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <div id="formModal" class="modal">
+    <div class="modal-content">
+      <h2 id="modalTitle">Tambah Siswa</h2>
+      <input type="text" id="nama" placeholder="Nama">
+      <input type="text" id="nisn" placeholder="NISN">
+      <input type="text" id="kelas" placeholder="Kelas">
+      <button class="btn btn-tambah" onclick="simpanData()">Simpan</button>
+    </div>
+  </div>
+
+  <script>
+    let dataSiswa = [];
+    let editIndex = null;
+
+    function openModal(index = null) {
+      document.getElementById("formModal").style.display = "block";
+      document.getElementById("modalTitle").innerText = index === null ? "Tambah Siswa" : "Edit Siswa";
+      if (index !== null) {
+        document.getElementById("nama").value = dataSiswa[index].nama;
+        document.getElementById("nisn").value = dataSiswa[index].nisn;
+        document.getElementById("kelas").value = dataSiswa[index].kelas;
+        editIndex = index;
+      } else {
+        document.getElementById("nama").value = "";
+        document.getElementById("nisn").value = "";
+        document.getElementById("kelas").value = "";
+        editIndex = null;
+      }
+    }
+
+    function closeModal() {
+      document.getElementById("formModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("formModal");
+      if (event.target == modal) {
+        closeModal();
+      }
+    }
+
+    function simpanData() {
+      const nama = document.getElementById("nama").value;
+      const nisn = document.getElementById("nisn").value;
+      const kelas = document.getElementById("kelas").value;
+
+      if (nama === "" || nisn === "" || kelas === "") {
+        alert("Semua field harus diisi!");
+        return;
+      }
+
+      const siswaBaru = { nama, nisn, kelas };
+
+      if (editIndex === null) {
+        dataSiswa.push(siswaBaru);
+      } else {
+        dataSiswa[editIndex] = siswaBaru;
+        editIndex = null;
+      }
+
+      renderTabel();
+      closeModal();
+    }
+
+    function renderTabel() {
+      const tbody = document.getElementById("siswaBody");
+      tbody.innerHTML = "";
+      dataSiswa.forEach((siswa, index) => {
+        const row = `<tr>
+          <td>${index + 1}</td>
+          <td>${siswa.nama}</td>
+          <td>${siswa.nisn}</td>
+          <td>${siswa.kelas}</td>
+          <td>
+            <button class="btn btn-edit" onclick="openModal(${index})">Edit</button>
+            <button class="btn btn-hapus" onclick="hapusData(${index})">Hapus</button>
+          </td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    function hapusData(index) {
+      if (confirm("Yakin ingin menghapus data ini?")) {
+        dataSiswa.splice(index, 1);
+        renderTabel();
+      }
+    }
+  </script>
+</body>
+</html>

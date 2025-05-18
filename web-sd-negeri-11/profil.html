@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profil - SD Negeri 11 Bandar Dua</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto+Slab&display=swap" rel="stylesheet" />
+  <style>
+    /* --- Copy style dari index.html --- */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      color: #333;
+      background: #f9f9f9;
+      overflow-x: hidden;
+    }
+    header.navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: #0d47a1;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: white;
+      box-shadow: 0 3px 8px rgb(13 71 161 / 0.5);
+      z-index: 1100;
+      justify-content: flex-start;
+      gap: 20px;
+    }
+    .hamburger {
+      cursor: pointer;
+      width: 28px;
+      height: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hamburger span {
+      display: block;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    header.navbar .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      user-select: none;
+      white-space: nowrap;
+    }
+    nav.sidebar {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      height: calc(100vh - 60px);
+      width: 250px;
+      background-color: #0d47a1;
+      color: white;
+      padding-top: 20px;
+      transform: translateX(-260px);
+      transition: transform 0.3s ease;
+      box-shadow: 2px 0 10px rgb(0 0 0 / 0.2);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    nav.sidebar.open {
+      transform: translateX(0);
+    }
+    nav.sidebar a {
+      color: white;
+      padding: 12px 25px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background-color 0.2s ease;
+      border-left: 4px solid transparent;
+      user-select: none;
+    }
+    nav.sidebar a:hover {
+      background-color: #1565c0;
+    }
+    nav.sidebar a.active {
+      background-color: #1565c0;
+      border-left-color: #ffca28;
+      font-weight: 700;
+    }
+    main.content {
+      max-width: 1000px;
+      margin: 90px auto 50px auto;
+      padding: 0 20px 50px;
+      transition: margin-left 0.3s ease;
+      margin-left: 20px;
+    }
+    main.content.sidebar-open {
+      margin-left: 280px;
+    }
+    h1, h2 {
+      color: #0d47a1;
+      font-weight: 700;
+      margin-bottom: 20px;
+      font-family: 'Roboto Slab', serif;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #0d47a1;
+      color: white;
+      margin-top: 50px;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+    }
+    @media (max-width: 600px) {
+      nav.sidebar {
+        width: 200px;
+        transform: translateX(-210px);
+      }
+      nav.sidebar.open {
+        transform: translateX(0);
+      }
+      main.content.sidebar-open {
+        margin-left: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="hamburger" id="hamburger" aria-label="Toggle menu" role="button" tabindex="0">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo">SD NEGERI 11 BANDAR DUA</div>
+  </header>
+
+  <nav class="sidebar" id="sidebar">
+    <a href="index.html">Beranda</a>
+    <a href="profil.html" class="active">Profil</a>
+    <a href="informasi.html">Informasi</a>
+    <a href="galeri.html">Galeri</a>
+    <a href="ppdb.html">PPDB Online</a>
+    <a href="login.html">Login</a>
+  </nav>
+
+  <main class="content" id="main-content">
+    <h1>Profil Sekolah</h1>
+    <p>Ini adalah halaman profil sekolah SD Negeri 11 Bandar Dua.</p>
+    <p>Deskripsi, visi misi, sejarah, dan informasi lainnya bisa ditambahkan di sini.</p>
+  </main>
+
+  <footer>
+    <p>© SD Negeri 11 Bandar Dua - via Weritt Scheangura</p>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+    function toggleSidebar() {
+      hamburger.classList.toggle('open');
+      sidebar.classList.toggle('open');
+      mainContent.classList.toggle('sidebar-open');
+    }
+    hamburger.addEventListener('click', toggleSidebar);
+    hamburger.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleSidebar();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: #f4f7fc;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #1a237e;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      transition: 0.3s;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 22px;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: white;
+      padding: 15px 10px;
+      margin: 5px 0;
+      border-radius: 8px;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar a:hover {
+      background-color: #3949ab;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      animation: slideIn 0.5s ease;
+      overflow-y: auto;
+    }
+
+    .navbar {
+      background-color: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .navbar h1 {
+      font-size: 22px;
+      color: #1a237e;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Sidebar */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+        padding: 10px;
+      }
+
+      .sidebar h2, .sidebar a span {
+        display: none;
+      }
+
+      .sidebar a i {
+        font-size: 20px;
+      }
+
+      .main {
+        padding: 10px;
+      }
+
+      .navbar h1 {
+        font-size: 18px;
+      }
+    }
+
+    /* Tabel */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f0f0f0;
+    }
+
+    .btn {
+      padding: 8px 12px;
+      background-color: #1a237e;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #3949ab;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="#" data-page="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></a>
+    <a href="#" data-page="siswa"><i class="fas fa-users"></i><span>Data Siswa</span></a>
+    <a href="#" data-page="guru"><i class="fas fa-chalkboard-teacher"></i><span>Data Guru</span></a>
+    <a href="#" data-page="ppdb"><i class="fas fa-user-plus"></i><span>PPDB</span></a>
+    <a href="#" data-page="pengumuman"><i class="fas fa-bullhorn"></i><span>Pengumuman</span></a>
+    <a href="#"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+  </div>
+
+  <div class="main">
+    <div class="navbar">
+      <h1>Selamat Datang, Admin</h1>
+    </div>
+    <div id="content-area">
+      <h2>Dashboard</h2>
+      <p>Ini adalah halaman dashboard admin. Fitur manajemen akan ditambahkan di sini.</p>
+    </div>
+  </div>
+
+  <script>
+    const contentArea = document.getElementById('content-area');
+    const links = document.querySelectorAll('.sidebar a[data-page]');
+
+    links.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const page = this.dataset.page;
+
+        switch (page) {
+          case 'dashboard':
+            contentArea.innerHTML = `
+              <h2>Dashboard</h2>
+              <p>Ini adalah halaman dashboard admin. Fitur manajemen akan ditambahkan di sini.</p>
+            `;
+            break;
+case 'siswa':
+  contentArea.innerHTML = `
+    <h2>Data Siswa</h2>
+    <form id="form-siswa" style="margin-bottom: 20px;">
+      <label>Nama Lengkap:</label><br>
+      <input type="text" name="nama" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
+      
+      <label>NIS:</label><br>
+      <input type="text" name="nis" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
+      
+      <label>Kelas:</label><br>
+      <input type="text" name="kelas" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
+
+      <button type="submit" class="btn">Simpan</button>
+    </form>
+
+    <div id="result"></div>
+
+    <h3>Daftar Siswa</h3>
+    <table>
+      <thead>
+        <tr><th>No</th><th>Nama</th><th>NIS</th><th>Kelas</th></tr>
+      </thead>
+      <tbody id="tabel-siswa">
+        <tr><td>1</td><td>Contoh Siswa</td><td>12345</td><td>6A</td></tr>
+      </tbody>
+    </table>
+  `;
+
+  // Tambahkan aksi JavaScript lokal (belum simpan ke DB)
+  const form = document.getElementById('form-siswa');
+  const tabel = document.getElementById('tabel-siswa');
+  const result = document.getElementById('result');
+  let no = 2;
+
+  form.onsubmit = function(e) {
+    e.preventDefault();
+    const nama = form.nama.value;
+    const nis = form.nis.value;
+    const kelas = form.kelas.value;
+
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${no++}</td><td>${nama}</td><td>${nis}</td><td>${kelas}</td>`;
+    tabel.appendChild(row);
+
+    result.innerHTML = `<p style="color: green; margin-top: 10px;">Data siswa berhasil ditambahkan (simulasi)</p>`;
+    form.reset();
+  };
+  break;
+
+          case 'guru':
+            contentArea.innerHTML = `
+              <h2>Data Guru</h2>
+              <p>Halaman ini berisi data guru. Fitur tambah/edit akan ditambahkan.</p>
+            `;
+            break;
+          case 'ppdb':
+            contentArea.innerHTML = `
+              <h2>PPDB</h2>
+              <p>Halaman ini untuk mengelola pendaftaran siswa baru.</p>
+            `;
+           case 'pengumuman':
+  contentArea.innerHTML = `
+    <h2>Pengumuman / Berita Sekolah</h2>
+    <form id="form-berita" style="margin-bottom: 20px;">
+      <label>Judul Berita:</label><br>
+      <input type="text" name="judul" required style="width: 100%; padding: 8px; margin-bottom: 10px;"><br>
+
+      <label>Isi Berita:</label><br>
+      <textarea name="isi" required style="width: 100%; padding: 8px; margin-bottom: 10px;"></textarea><br>
+
+      <button type="submit" class="btn">Tambah Berita</button>
+    </form>
+
+    <div id="pesan-berita"></div>
+
+    <h3>Daftar Berita</h3>
+    <table>
+      <thead>
+        <tr><th>No</th><th>Judul</th><th>Isi</th><th>Aksi</th></tr>
+      </thead>
+      <tbody id="tabel-berita">
+        <tr><td>1</td><td>Contoh Judul</td><td>Contoh isi berita sekolah.</td><td><button class="btn btn-edit" data-index="0">Edit</button></td></tr>
+      </tbody>
+    </table>
+  `;
+
+  const formBerita = document.getElementById('form-berita');
+  const tabelBerita = document.getElementById('tabel-berita');
+  const pesanBerita = document.getElementById('pesan-berita');
+  let beritaData = [{
+    judul: "Contoh Judul",
+    isi: "Contoh isi berita sekolah."
+  }];
+  let editIndex = null;
+
+  formBerita.onsubmit = function(e) {
+    e.preventDefault();
+    const judul = formBerita.judul.value;
+    const isi = formBerita.isi.value;
+
+    if (editIndex !== null) {
+      beritaData[editIndex] = { judul, isi };
+      editIndex = null;
+    } else {
+      beritaData.push({ judul, isi });
+    }
+
+    tampilkanBerita();
+    formBerita.reset();
+    pesanBerita.innerHTML = '<p style="color: green;">Berita berhasil disimpan (simulasi)</p>';
+  };
+
+  function tampilkanBerita() {
+    tabelBerita.innerHTML = '';
+    beritaData.forEach((b, i) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${b.judul}</td>
+        <td>${b.isi}</td>
+        <td><button class="btn btn-edit" data-index="${i}">Edit</button></td>
+      `;
+      tabelBerita.appendChild(row);
+    });
+
+    document.querySelectorAll('.btn-edit').forEach(btn => {
+      btn.onclick = () => {
+        const i = btn.dataset.index;
+        formBerita.judul.value = beritaData[i].judul;
+        formBerita.isi.value = beritaData[i].isi;
+        editIndex = i;
+      };
+    });
+  }
+  break;
+
+        }
+      });
+    });
+  </script>
+</body>
+</html>

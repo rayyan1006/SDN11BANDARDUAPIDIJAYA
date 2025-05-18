@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PPDB Online - SD NEGERI 11 BANDAR DUA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto+Slab&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset dan dasar */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f7fa;
+      color: #222;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Navbar */
+    header.navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background-color: #0d47a1;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.2rem;
+      z-index: 1000;
+      user-select: none;
+    }
+    /* Hamburger menu */
+    .hamburger {
+      width: 28px;
+      height: 20px;
+      margin-right: 20px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hamburger span {
+      display: block;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    /* Sidebar */
+    nav.sidebar {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 260px;
+      height: calc(100vh - 60px);
+      background-color: #0d47a1;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transform: translateX(-270px);
+      transition: transform 0.3s ease;
+      z-index: 999;
+    }
+    nav.sidebar.open {
+      transform: translateX(0);
+    }
+    nav.sidebar a {
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      border-left: 4px solid transparent;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      user-select: none;
+    }
+    nav.sidebar a:hover {
+      background-color: #1565c0;
+      border-left-color: #ffca28;
+    }
+    nav.sidebar a.active {
+      background-color: #1565c0;
+      border-left-color: #ffca28;
+      font-weight: 700;
+    }
+    /* Main content */
+    main.content {
+      margin-top: 80px;
+      margin-left: 20px;
+      max-width: 900px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+      flex-grow: 1;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    main.content.sidebar-open {
+      margin-left: 280px;
+    }
+    h1 {
+      font-family: 'Roboto Slab', serif;
+      color: #0d47a1;
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 2.2rem;
+    }
+    /* Form */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #0d47a1;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="tel"],
+    select,
+    input[type="file"] {
+      padding: 10px 12px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1.5px solid #ccc;
+      transition: border-color 0.3s ease;
+      width: 100%;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="date"]:focus,
+    input[type="tel"]:focus,
+    select:focus,
+    input[type="file"]:focus {
+      outline: none;
+      border-color: #0d47a1;
+      box-shadow: 0 0 6px #0d47a1aa;
+    }
+    button {
+      background-color: #0d47a1;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    button:hover:not(:disabled) {
+      background-color: #1565c0;
+    }
+    button:disabled {
+      background-color: #888;
+      cursor: not-allowed;
+    }
+    /* Status Pendaftaran */
+    #status-ppdb {
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #0d47a1;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+      margin-top: auto;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav.sidebar {
+        width: 220px;
+        transform: translateX(-230px);
+      }
+      main.content.sidebar-open {
+        margin-left: 240px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="hamburger" id="hamburger" role="button" tabindex="0" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="logo">SD NEGERI 11 BANDAR DUA</div>
+  </header>
+
+  <nav class="sidebar" id="sidebar" aria-label="Sidebar Navigation">
+    <a href="index.html">Beranda</a>
+    <a href="profil.html">Profil</a>
+    <a href="informasi.html">Informasi</a>
+    <a href="galeri.html">Galeri</a>
+    <a href="ppdb.html" class="active" aria-current="page">PPDB Online</a>
+    <a href="login.html">Login</a>
+  </nav>
+
+  <main class="content" id="main-content" tabindex="-1">
+    <h1>Pendaftaran Peserta Didik Baru (PPDB)</h1>
+    <div id="status-ppdb"></div>
+    <form id="ppdb-form" novalidate enctype="multipart/form-data">
+      <label for="nama-lengkap">Nama Lengkap</label>
+      <input type="text" id="nama-lengkap" name="nama_lengkap" required placeholder="Masukkan nama lengkap" />
+
+      <label for="tanggal-lahir">Tanggal Lahir</label>
+      <input type="date" id="tanggal-lahir" name="tanggal_lahir" required />
+
+      <label for="alamat">Alamat</label>
+      <input type="text" id="alamat" name="alamat" required placeholder="Masukkan alamat lengkap" />
+
+      <label for="nomor-telepon">Nomor Telepon</label>
+      <input type="tel" id="nomor-telepon" name="nomor_telepon" required placeholder="Contoh: 081234567890" pattern="[0-9]+" />
+
+      <label for="email">Email (opsional)</label>
+      <input type="email" id="email" name="email" placeholder="Masukkan email jika ada" />
+
+      <label for="akte-kelahiran">Upload Akte Kelahiran (PDF/JPG/PNG max 2MB)</label>
+      <input type="file" id="akte-kelahiran" name="akte_kelahiran" accept=".pdf,.jpg,.jpeg,.png" required />
+
+      <label for="kk">Upload Kartu Keluarga (PDF/JPG/PNG max 2MB)</label>
+      <input type="file" id="kk" name="kk" accept=".pdf,.jpg,.jpeg,.png" required />
+
+      <label for="ktp-ayah">Upload KTP Ayah (PDF/JPG/PNG max 2MB)</label>
+      <input type="file" id="ktp-ayah" name="ktp_ayah" accept=".pdf,.jpg,.jpeg,.png" required />
+
+      <label for="pas-foto">Upload Pas Foto (JPG/PNG max 1MB)</label>
+      <input type="file" id="pas-foto" name="pas_foto" accept=".jpg,.jpeg,.png" required />
+
+      <button type="submit" id="btn-submit" disabled>Daftar Sekarang</button>
+    </form>
+  </main>
+
+  <footer>
+    &copy; 2025 SD NEGERI 11 BANDAR DUA. Semua hak cipta dilindungi.
+  </footer>
+
+  <script>
+    // Sidebar toggle
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+
+    function toggleSidebar() {
+      hamburger.classList.toggle('open');
+      sidebar.classList.toggle('open');
+      mainContent.classList.toggle('sidebar-open');
+    }
+
+    hamburger.addEventListener('click', toggleSidebar);
+    hamburger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleSidebar();
+      }
+    });
+
+    // PPDB status buka / tutup
+    const ppdbOpen = false; // ubah ke false untuk tutup pendaftaran true
+
+    const btnSubmit = document.getElementById('btn-submit');
+    const statusPpdb = document.getElementById('status-ppdb');
+    const form = document.getElementById('ppdb-form');
+
+    // Update status pendaftaran dan aktifkan tombol sesuai status
+    function updatePpdbStatus() {
+      if (ppdbOpen) {
+        statusPpdb.textContent = "Pendaftaran Peserta Didik Baru sedang DIBUKA.";
+        statusPpdb.style.color = "green";
+        btnSubmit.disabled = false;
+      } else {
+        statusPpdb.textContent = "Pendaftaran Peserta Didik Baru saat ini DITUTUP.";
+        statusPpdb.style.color = "red";
+        btnSubmit.disabled = true;
+      }
+    }
+    updatePpdbStatus();
+
+    // Validasi form sederhana untuk enable button
+    form.addEventListener('input', () => {
+      btnSubmit.disabled = !form.checkValidity() || !ppdbOpen;
+    });
+
+    // File size validation (max 2MB untuk dokumen, max 1MB untuk pas foto)
+    function validateFileSize(fileInput, maxSizeMB) {
+      if (fileInput.files.length === 0) return false;
+      const file = fileInput.files[0];
+      return file.size <= maxSizeMB * 1024 * 1024;
+    }
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Validasi dasar
+      if (!this.checkValidity()) {
+        alert('Mohon lengkapi semua data yang wajib diisi dengan benar.');
+        return;
+      }
+
+      // Validasi ukuran file
+      if (!validateFileSize(form['akte_kelahiran'], 2)) {
+        alert('File Akte Kelahiran harus kurang dari 2MB.');
+        return;
+      }
+      if (!validateFileSize(form['kk'], 2)) {
+        alert('File Kartu Keluarga harus kurang dari 2MB.');
+        return;
+      }
+      if (!validateFileSize(form['ktp_ayah'], 2)) {
+        alert('File KTP Ayah harus kurang dari 2MB.');
+        return;
+      }
+      if (!validateFileSize(form['pas_foto'], 1)) {
+        alert('File Pas Foto harus kurang dari 1MB.');
+        return;
+      }
+
+      alert('Terima kasih telah mendaftar! Data Anda akan kami proses.');
+      this.reset();
+      btnSubmit.disabled = true;
+    });
+  </script>
+</body>
+</html>

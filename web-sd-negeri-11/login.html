@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - SD Negeri 11 Bandar Dua</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #bbdefb, #e3f2fd);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .login-container h2 {
+      text-align: center;
+      color: #0d47a1;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #333;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: #0d47a1;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-btn:hover {
+      background-color: #1565c0;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login Admin</h2>
+    <form action="admin/dashboard.html" method="GET">
+      <div class="form-group">
+        <label for="username">Nama Pengguna</label>
+        <input type="text" id="username" name="username" placeholder="Masukkan nama pengguna" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Kata Sandi</label>
+        <input type="password" id="password" name="password" placeholder="Masukkan kata sandi" required />
+      </div>
+      <button type="submit" class="login-btn">Masuk</button>
+    </form>
+    <div class="footer">© SD Negeri 11 Bandar Dua</div>
+  </div>
+</body>
+</html>

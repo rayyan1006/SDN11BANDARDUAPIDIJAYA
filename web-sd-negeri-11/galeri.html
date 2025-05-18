@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Galeri - SD NEGERI 11 BANDAR DUA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto+Slab&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset dan dasar */
+    * {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f7fa;
+      color: #222;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Navbar */
+    header.navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background-color: #0d47a1;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      color: white;
+      font-weight: 700;
+      font-size: 1.2rem;
+      z-index: 1000;
+      user-select: none;
+    }
+    /* Hamburger menu */
+    .hamburger {
+      width: 28px;
+      height: 20px;
+      margin-right: 20px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hamburger span {
+      display: block;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+    /* Sidebar */
+    nav.sidebar {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 260px;
+      height: calc(100vh - 60px);
+      background-color: #0d47a1;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transform: translateX(-270px);
+      transition: transform 0.3s ease;
+      z-index: 999;
+    }
+    nav.sidebar.open {
+      transform: translateX(0);
+    }
+    nav.sidebar a {
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      border-left: 4px solid transparent;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+      user-select: none;
+    }
+    nav.sidebar a:hover {
+      background-color: #1565c0;
+      border-left-color: #ffca28;
+    }
+    nav.sidebar a.active {
+      background-color: #1565c0;
+      border-left-color: #ffca28;
+      font-weight: 700;
+    }
+    /* Main content */
+    main.content {
+      margin-top: 80px;
+      margin-left: 20px;
+      max-width: 1000px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+      flex-grow: 1;
+    }
+    main.content.sidebar-open {
+      margin-left: 280px;
+    }
+    h1 {
+      font-family: 'Roboto Slab', serif;
+      color: #0d47a1;
+      margin-bottom: 25px;
+      font-weight: 700;
+      font-size: 2.2rem;
+    }
+    /* Gallery grid */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .gallery img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      object-fit: cover;
+      aspect-ratio: 4 / 3;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #0d47a1;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+      margin-top: auto;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav.sidebar {
+        width: 220px;
+        transform: translateX(-230px);
+      }
+      main.content.sidebar-open {
+        margin-left: 240px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="hamburger" id="hamburger" role="button" tabindex="0" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="logo">SD NEGERI 11 BANDAR DUA</div>
+  </header>
+
+  <nav class="sidebar" id="sidebar" aria-label="Sidebar Navigation">
+    <a href="index.html">Beranda</a>
+    <a href="profil.html">Profil</a>
+    <a href="informasi.html">Informasi</a>
+    <a href="galeri.html" class="active" aria-current="page">Galeri</a>
+    <a href="ppdb.html">PPDB Online</a>
+    <a href="login.html">Login</a>
+  </nav>
+
+  <main class="content" id="main-content" tabindex="-1">
+    <h1>Galeri Sekolah</h1>
+    <section class="gallery" aria-label="Galeri foto kegiatan sekolah">
+      <img src="images/school1.jpg" alt="Kegiatan Belajar di kelas" />
+      <img src="images/school2.jpg" alt="Ekstrakurikuler siswa" />
+      <img src="images/school3.jpg" alt="Upacara bendera di halaman sekolah" />
+      <img src="images/school4.jpg" alt="Perpustakaan sekolah dengan siswa membaca" />
+    </section>
+  </main>
+
+  <footer>
+    <p>© SD Negeri 11 Bandar Dua - via Weritt Scheangura</p>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('main-content');
+
+    function toggleSidebar() {
+      hamburger.classList.toggle('open');
+      sidebar.classList.toggle('open');
+      mainContent.classList.toggle('sidebar-open');
+    }
+
+    hamburger.addEventListener('click', toggleSidebar);
+    hamburger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleSidebar();
+      }
+    });
+  </script>
+</body>
+</html>
